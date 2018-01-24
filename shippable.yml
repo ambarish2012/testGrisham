@@ -99,3 +99,11 @@ jobs:
       - TASK:
         - script: >
             exit 0
+
+  - name: runsh-Job-7
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - TASK:
+        - script: /bin/true
