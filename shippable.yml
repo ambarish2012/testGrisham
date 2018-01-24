@@ -35,8 +35,8 @@ jobs:
     runtime:
       nodePool: jatin-custom
     steps:
+      - IN: repo-scripts
       - TASK:
-        - IN: repo-scripts
         - script: >-
             ./IN/repo-scripts/gitRepo/test.sh
 
@@ -55,18 +55,18 @@ jobs:
     runtime:
       nodePool: jatin-custom
     steps:
+      - IN: runSh-Job-2
       - TASK:
-        - IN: runSh-Job-2
-        - script: ls -ltr /build/IN/runSh-Job-1
+        - script: ls -ltr /build/IN/runSh-Job-2
 
   - name: runSh-Job-4
     type: runSh
     runtime:
       nodePool: jatin-custom
     steps:
+      - IN: repo-scripts
+      - IN: runSh-Job-3
       - TASK:
-        - IN: repo-scripts
-        - IN: runSh-Job-3
         - script: >
             apt-get -q -y install jq; versionName=$(cat
             IN/repo-scripts/version.json | jq -r .version.versionName);
@@ -78,12 +78,13 @@ jobs:
     runtime:
       nodePool: jatin-custom
     steps:
+      - IN: repo-scripts
+      - IN: runSh-Job-4
       - TASK:
-          - IN: runSh-Job-4
-          - script: >
-              apt-get -q -y install jq; versionName=$(cat
-              IN/repo-scripts/version.json | jq -r .version.versionName);
-              branch=$(cat IN/repo-scripts/version.json | jq -r
-              .version.propertyBag.branch); echo $versionName; echo $branch;
-              echo versionName=$versionName > /build/state/jatin-image.env;
-          - OUT: docker-image
+        - script: >
+            apt-get -q -y install jq; versionName=$(cat
+            IN/repo-scripts/version.json | jq -r .version.versionName);
+            branch=$(cat IN/repo-scripts/version.json | jq -r
+            .version.propertyBag.branch); echo $versionName; echo $branch;
+            echo versionName=$versionName > /build/state/jatin-image.env;
+      - OUT: docker-image
