@@ -135,3 +135,4 @@ jobs:
     type: runCI
     steps:
       - IN: time-trigger
+        switch: off
