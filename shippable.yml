@@ -34,6 +34,10 @@ resources:
     seed:
       interval: "*/2 * * * *"
 
+  - name: test-kubernetes-cli
+    type: cliConfig
+    integration: kubeGen
+
 jobs:
   - name: runSh-Job-1
     type: runSh
@@ -70,7 +74,6 @@ jobs:
       nodePool: jatin-custom
     steps:
       - IN: repo-scripts
-      - IN: runSh-Job-3
       - TASK:
         - script: >
             apt-get -q -y install jq; versionName=$(cat
@@ -84,7 +87,6 @@ jobs:
       nodePool: jatin-custom
     steps:
       - IN: repo-scripts
-      - IN: runSh-Job-4
       - TASK:
         - script: >
             apt-get -q -y install jq; versionName=$(cat
@@ -100,7 +102,6 @@ jobs:
       nodePool: jatin-custom
     steps:
       - IN: repo-scripts
-      - IN: runSh-Job-5
       - TASK:
         - script: >
             exit 0
@@ -136,3 +137,23 @@ jobs:
     steps:
       - IN: time-trigger
         switch: off
+
+  - name: x86-64-ubuntu_14_04_azure_cli
+    type: runSh
+    runtime:
+      nodePool: jatin-dynamic
+    steps:
+      - IN: test-kubernetes-cli
+      - TASK:
+          runtime:
+            container: true
+            options:
+              imageName: drydock/microbase
+              imageTag: v6.1.3
+              pull: true
+          name: test-azure-cli-vm-list
+          script:
+            - uname -a
+            - sleep 30
+            - echo "hello" || true
+            - kubectl version
