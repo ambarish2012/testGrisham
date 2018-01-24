@@ -29,6 +29,11 @@ resources:
     seed:
       versionName: "driftking"
 
+  - name: time-trigger
+    type: time
+    seed:
+      interval: "*/2 * * * *"
+
 jobs:
   - name: runSh-Job-1
     type: runSh
@@ -107,3 +112,26 @@ jobs:
     steps:
       - TASK:
         - script: /bin/true
+
+
+  - name: runsh-Job-8
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - IN: repo-scripts
+      - TASK:
+        - script: sudo apt install -y doxygen make
+        - script: >-
+            sudo pip install breathe==4.7.3 sphinx==1.6.5  awscli sphinx_rtd_theme
+            docutils==0.14
+        - script: . /build/IN/repo-scripts/gitRepo/test.sh
+        - script: |
+            env
+            sudo apt-get install -y tree
+            tree
+
+  - name: testGrisham_runCI
+    type: runCI
+    steps:
+      - IN: time-trigger
