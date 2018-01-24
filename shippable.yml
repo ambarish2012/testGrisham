@@ -88,3 +88,14 @@ jobs:
             .version.propertyBag.branch); echo $versionName; echo $branch;
             echo versionName=$versionName > /build/state/jatin-image.env;
       - OUT: docker-image
+
+  - name: runSh-Job-6
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - IN: repo-scripts
+      - IN: runSh-Job-5
+      - TASK:
+        - script: >
+            exit $?
