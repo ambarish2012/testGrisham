@@ -98,4 +98,4 @@ jobs:
       - IN: runSh-Job-5
       - TASK:
         - script: >
-            exit $?
+            exit 0
