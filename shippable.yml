@@ -20,8 +20,8 @@ resources:
   - name: resource-state
     type: state
 
-  - name: jatin-image
-    type: docker
+  - name: docker-image
+    type: image
     integration: jatin-docker
     pointer:
       sourceName: "scriptnull/debian"
@@ -86,4 +86,4 @@ jobs:
               branch=$(cat IN/repo-scripts/version.json | jq -r
               .version.propertyBag.branch); echo $versionName; echo $branch;
               echo versionName=$versionName > /build/state/jatin-image.env;
-          - OUT: jatin-image
+          - OUT: docker-image
