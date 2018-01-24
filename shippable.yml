@@ -1,0 +1,89 @@
+language:
+  - node_js
+runtime:
+  nodePool: jatin-custom
+# Version number
+node_js:
+  - 4.2.1
+build:
+  ci:
+    - echo 'HI'
+
+resources:
+  - name: repo-scripts
+    type: gitRepo
+    integration: jatin-github
+    pointer:
+      sourceName: jatindogra/testGrisham
+      branch: master
+
+  - name: resource-state
+    type: state
+
+  - name: jatin-image
+    type: docker
+    integration: jatin-docker
+    pointer:
+      sourceName: "scriptnull/debian"
+      isPull: false
+    seed:
+      versionName: "driftking"
+
+jobs:
+  - name: runSh-Job-1
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - TASK:
+        - IN: repo-scripts
+        - script: >-
+            ./IN/repo-scripts/gitRepo/test.sh
+
+  - name: runSh-Job-2
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - IN: runSh-Job-1
+      - TASK:
+        - script: >
+            apt-get -q -y install jq; env1='env1'; printf "Print Something";
+
+  - name: runSh-Job-3
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - TASK:
+        - IN: runSh-Job-2
+        - script: ls -ltr /build/IN/runSh-Job-1
+
+  - name: runSh-Job-4
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - TASK:
+        - IN: repo-scripts
+        - IN: runSh-Job-3
+        - script: >
+            apt-get -q -y install jq; versionName=$(cat
+            IN/repo-scripts/version.json | jq -r .version.versionName);
+            branch=$(cat IN/repo-scripts/version.json | jq -r
+            .version.propertyBag.branch); echo $versionName; echo $branch;
+
+  - name: runSh-Job-5
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - TASK:
+          - IN: runSh-Job-4
+          - script: >
+              apt-get -q -y install jq; versionName=$(cat
+              IN/repo-scripts/version.json | jq -r .version.versionName);
+              branch=$(cat IN/repo-scripts/version.json | jq -r
+              .version.propertyBag.branch); echo $versionName; echo $branch;
+              echo versionName=$versionName > /build/state/jatin-image.env;
+          - OUT: jatin-image
