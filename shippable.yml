@@ -39,6 +39,11 @@ resources:
     integration: kubeGen
 
 jobs:
+  - name: job-manifest
+    type: manifest
+    steps:
+      - IN: docker-image
+
   - name: runSh-Job-1
     type: runSh
     runtime:
@@ -141,7 +146,7 @@ jobs:
   - name: x86-64-ubuntu_14_04_azure_cli
     type: runSh
     runtime:
-      nodePool: jatin-dynamic
+      nodePool: jatin-custom
     steps:
       - IN: test-kubernetes-cli
       - TASK:
@@ -157,3 +162,17 @@ jobs:
             - sleep 30
             - echo "hello" || true
             - kubectl version
+
+  - name: runsh-Job-9
+    type: runSh
+    runtime:
+      nodePool: jatin-custom
+    steps:
+      - IN: repo-scripts
+      - TASK:
+          - script: >-
+              IMAGE=$(cat /build/IN/repo-scripts/version.json | jq -r .version.versionName);
+              echo $IMAGE;
+          - script: >-
+              bash
+              "./IN/repo-scripts/gitRepo/test.sh"
