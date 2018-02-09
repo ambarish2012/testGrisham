@@ -6,6 +6,7 @@ node_js:
   - 4.2.1
 build:
   ci:
+    - sleep 10m
     - echo 'HI'
 
 resources:
