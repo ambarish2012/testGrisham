@@ -7,7 +7,7 @@ node_js:
 build:
   ci:
     - echo 'HI'
-    - shipctl get_resource_id time-trigger
+    - shipctl get_resource_id testGrisham_ciRepo
 
 resources:
   - name: repo-scripts
