@@ -7,6 +7,7 @@ node_js:
 build:
   ci:
     - echo 'HI'
+    - shipctl get_resource_id time-trigger
 
 resources:
   - name: repo-scripts
@@ -140,9 +141,7 @@ jobs:
     type: runCI
     steps:
       - IN: time-trigger
-        switch: off
-      - TASK:
-        - script: shipctl get_resource_id time-trigger
+        switch: off 
 
   - name: x86-64-ubuntu_14_04_azure_cli
     type: runSh
