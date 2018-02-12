@@ -72,6 +72,7 @@ jobs:
     steps:
       - IN: runSh-Job-2
       - TASK:
+        - script: sleep 10m
         - script: ls -ltr /build/IN/runSh-Job-2
 
   - name: runSh-Job-4
