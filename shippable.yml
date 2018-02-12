@@ -68,7 +68,7 @@ jobs:
   - name: runSh-Job-3
     type: runSh
     runtime:
-      nodePool: jatin-custom
+      nodePool: default
     steps:
       - IN: runSh-Job-2
       - TASK:
