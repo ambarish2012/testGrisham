@@ -2,7 +2,7 @@ language:
   - node_js
   
 runtime:
-  nodePool: default-16
+  nodePool: default
 
 # Version number
 node_js:
@@ -73,11 +73,9 @@ jobs:
     runtime:
       nodePool: default
     steps:
-      - IN: runSh-Job-2
       - TASK:
-        - script: sleep 10m
-        - script: ls -ltr /build/IN/runSh-Job-2
-
+        - script: sleep 3m
+  
   - name: runSh-Job-4
     type: runSh
     runtime:
