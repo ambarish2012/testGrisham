@@ -11,7 +11,7 @@ build:
   ci:
     - echo 'HI'
     - shipctl get_resource_id testGrisham_ciRepo
-    - sleep 3m
+    - sleep 40
 
 resources:
   - name: repo-scripts
