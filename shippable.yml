@@ -16,6 +16,11 @@ branches:
 
 build:
   # http://docs.shippable.com/ci/shippableyml/#ci
+  pre_ci_boot:
+    image_name: zephyrprojectrtos/ci
+    image_tag: v0.3
+    pull: true
+    options: "--user buildslave -e HOME=/home/buildslave"
   pre_ci:
     - shipctl get_resource_id testGrisham_ciRepo
   ci:
