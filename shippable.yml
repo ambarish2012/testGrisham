@@ -19,7 +19,7 @@ build:
     image_name: zephyrprojectrtos/ci
     image_tag: v0.3
     pull: true
-    options: "--user buildslave -e HOME=/home/buildslave"
+    #options: "--user buildslave -e HOME=/home/buildslave"
 
   # http://docs.shippable.com/ci/shippableyml/#ci
   ci:
