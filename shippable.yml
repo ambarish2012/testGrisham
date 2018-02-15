@@ -23,7 +23,8 @@ build:
   pre_ci:
     - shipctl get_resource_id testGrisham_ciRepo
   ci:
-    - sleep 120
     - echo $SHIPPABLE_BUILD_DIR
     - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
     - ls -al $SHIPPABLE_BUILD_DIR
+    - shipctl get_resource_id testGrisham_ciRepo
+
