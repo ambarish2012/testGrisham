@@ -20,6 +20,7 @@ build:
     image_name: zephyrprojectrtos/ci
     image_tag: v0.3
     pull: true
+    options: "-e HOME=/home/buildslave"
   pre_ci:
     - shipctl get_resource_id testGrisham_ciRepo
   ci:
