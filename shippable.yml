@@ -1,181 +1,29 @@
-language:
-  - node_js
-  
+
+# Language setting http://docs.shippable.com/ci/languages/node/
+language: node_js
+
 runtime:
   nodePool: default
 
-# Version number
 node_js:
-  - 4.2.1
+  - 8.2.1
+
+# use this to control what branches get built.
+# http://docs.shippable.com/ci/advancedOptions/branches/
+branches:
+  only:
+    - master
+
 build:
+  pre_ci_boot:
+    image_name: zephyrprojectrtos/ci
+    image_tag: v0.3
+    pull: true
+    options: "--user buildslave -e HOME=/home/buildslave"
+
+  # http://docs.shippable.com/ci/shippableyml/#ci
   ci:
-    - echo 'HI'
-    - shipctl get_resource_id testGrisham_ciRepo
-    - sleep 40
-
-resources:
-  - name: repo-scripts
-    type: gitRepo
-    integration: jatin-github
-    pointer:
-      sourceName: jatindogra/testGrisham
-      branch: master
-
-  - name: resource-state
-    type: state
-
-  - name: docker-image
-    type: image
-    integration: jatin-docker
-    pointer:
-      sourceName: "scriptnull/debian"
-      isPull: false
-    seed:
-      versionName: "driftking"
-
-  - name: time-trigger
-    type: time
-    seed:
-      interval: "*/2 * * * *"
-
-  - name: test-kubernetes-cli
-    type: cliConfig
-    integration: kubeGen
-
-jobs:
-  - name: job-manifest
-    type: manifest
-    steps:
-      - IN: docker-image
-
-  - name: runSh-Job-1
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: repo-scripts
-      - TASK:
-        - script: >-
-            ./IN/repo-scripts/gitRepo/test.sh
-
-  - name: runSh-Job-2
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: runSh-Job-1
-      - TASK:
-        - script: >
-            apt-get -q -y install jq; env1='env1'; printf "Print Something";
-
-  - name: runSh-Job-3
-    type: runSh
-    runtime:
-      nodePool: default
-    steps:
-      - TASK:
-        - script: sleep 3m
-  
-  - name: runSh-Job-4
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: repo-scripts
-      - TASK:
-        - script: >
-            apt-get -q -y install jq; versionName=$(cat
-            IN/repo-scripts/version.json | jq -r .version.versionName);
-            branch=$(cat IN/repo-scripts/version.json | jq -r
-            .version.propertyBag.branch); echo $versionName; echo $branch;
-
-  - name: runSh-Job-5
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: repo-scripts
-      - TASK:
-        - script: >
-            apt-get -q -y install jq; versionName=$(cat
-            IN/repo-scripts/version.json | jq -r .version.versionName);
-            branch=$(cat IN/repo-scripts/version.json | jq -r
-            .version.propertyBag.branch); echo $versionName; echo $branch;
-            echo versionName=$versionName > /build/state/jatin-image.env;
-      - OUT: docker-image
-
-  - name: runSh-Job-6
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: repo-scripts
-      - TASK:
-        - script: >
-            exit 0
-
-  - name: runsh-Job-7
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - TASK:
-        - script: /bin/true
-
-
-  - name: runsh-Job-8
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: repo-scripts
-      - TASK:
-        - script: sudo apt install -y doxygen make
-        - script: >-
-            sudo pip install breathe==4.7.3 sphinx==1.6.5  awscli sphinx_rtd_theme
-            docutils==0.14
-        - script: . /build/IN/repo-scripts/gitRepo/test.sh
-        - script: |
-            env
-            sudo apt-get install -y tree
-            tree
-
-  - name: testGrisham_runCI
-    type: runCI
-    steps:
-      - IN: time-trigger
-        switch: off 
-
-  - name: x86-64-ubuntu_14_04_azure_cli
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: test-kubernetes-cli
-      - TASK:
-          runtime:
-            container: true
-            options:
-              imageName: drydock/microbase
-              imageTag: v6.1.3
-              pull: true
-          name: test-azure-cli-vm-list
-          script:
-            - uname -a
-            - sleep 30
-            - echo "hello" || true
-            - kubectl version
-
-  - name: runsh-Job-9
-    type: runSh
-    runtime:
-      nodePool: jatin-custom
-    steps:
-      - IN: repo-scripts
-      - TASK:
-          - script: >-
-              IMAGE=$(cat /build/IN/repo-scripts/version.json | jq -r .version.versionName);
-              echo $IMAGE;
-          - script: >-
-              bash
-              "./IN/repo-scripts/gitRepo/test.sh"
+    - echo $SHIPPABLE_BUILD_DIR
+    - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+    - . /home/newuser/.nvm/nvm.sh && nvm install 8.2.1 && nvm use 8.2.1 && cd $SHIPPABLE_BUILD_DIR && npm install
+    - ls -al $SHIPPABLE_BUILD_DIR
