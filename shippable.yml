@@ -97,8 +97,8 @@ jobs:
       - TASK:
           runtime:
             options:
-              imageName: aarch64/ubuntu
-              imageTag: 16.04
+              imageName: drydockaarch64/u16
+              imageTag: v5.10.4
               pull: true
           script: 
             - echo "foo"
