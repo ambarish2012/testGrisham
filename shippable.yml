@@ -46,6 +46,7 @@ jobs:
               imageName: zephyrprojectrtos/ci
               imageTag: v0.3
               pull: true
+              options: "--user buildslave -e HOME=/home/buildslave"
           script: 
             - echo "foo"
             - shipctl get_resource_id resource-state
