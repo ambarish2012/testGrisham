@@ -30,3 +30,13 @@ build:
   push:
     - shipctl get_resource_id testGrisham_ciRepo
   
+jobs:
+  - name: runSh-Job-Ubuntu-14
+    type: runSh
+    runtime:
+      nodePool: default
+    steps:
+      - TASK:
+        - script: echo "foo"
+        - script: shipctl get_resource_id runSh-Job-Ubuntu-14
+        - script: sleep 150
