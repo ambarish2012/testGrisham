@@ -97,7 +97,7 @@ jobs:
       - TASK:
           runtime:
             options:
-              imageName: arm64v8/ubuntu
+              imageName: aarch64/ubuntu
               imageTag: 16.04
               pull: true
           script: 
