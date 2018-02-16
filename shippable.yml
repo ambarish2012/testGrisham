@@ -51,3 +51,21 @@ jobs:
             - echo "foo"
             - shipctl get_resource_id resource-state
             - sleep 150
+
+  - name: runSh-Job-Ubuntu-16
+    type: runSh
+    runtime:
+      nodePool: default-16
+    steps:
+      - IN: resource-state
+      - TASK:
+          runtime:
+            options:
+              imageName: zephyrprojectrtos/ci
+              imageTag: v0.3
+              pull: true
+              options: "-e HOME=/home/buildslave"
+          script: 
+            - echo "foo"
+            - shipctl get_resource_id resource-state
+            - sleep 150
