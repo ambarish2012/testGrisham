@@ -97,9 +97,9 @@ jobs:
       - TASK:
           runtime:
             options:
-              imageName: drydockaarch64/u16
-              imageTag: v5.10.4
-              pull: true
+              imageName: jboi
+              imageTag: latest
+              pull: false
           script: 
             - echo "foo"
             - shipctl get_resource_id resource-state
