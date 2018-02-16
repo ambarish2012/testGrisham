@@ -29,14 +29,18 @@ build:
     - ls -al $SHIPPABLE_BUILD_DIR
   push:
     - shipctl get_resource_id testGrisham_ciRepo
-  
+
+resources:
+  - name: resource-state
+    type: state
 jobs:
   - name: runSh-Job-Ubuntu-14
     type: runSh
     runtime:
       nodePool: default
     steps:
+      - IN: resource-state
       - TASK:
         - script: echo "foo"
-        - script: shipctl get_resource_id runSh-Job-Ubuntu-14
+        - script: shipctl get_resource_id resource-state
         - script: sleep 150
