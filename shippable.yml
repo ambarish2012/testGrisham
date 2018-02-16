@@ -43,8 +43,8 @@ jobs:
       - TASK:
           runtime:
             options:
-              image_name: zephyrprojectrtos/ci
-              image_tag: v0.3
+              imageName: zephyrprojectrtos/ci
+              imageTag: v0.3
               pull: true
           script: 
             - echo "foo"
