@@ -47,5 +47,5 @@ jobs:
               imageTag: master
           script: 
             - echo "foo"
-            - script: shipctl get_resource_id resource-state
-            - script: sleep 150
+            - shipctl get_resource_id resource-state
+            - sleep 150
