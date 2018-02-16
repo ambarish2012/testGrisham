@@ -41,6 +41,12 @@ jobs:
     steps:
       - IN: resource-state
       - TASK:
-        - script: echo "foo"
-        - script: shipctl get_resource_id resource-state
-        - script: sleep 150
+          runtime:
+            options:
+              imageName: drydock/u14pytall
+              imageTag: master
+              options: --dns=4.4.4.4 --dns=8.8.8.8
+          script: 
+            - echo "foo"
+            - script: shipctl get_resource_id resource-state
+            - script: sleep 150
