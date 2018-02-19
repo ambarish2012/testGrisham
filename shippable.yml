@@ -50,7 +50,6 @@ jobs:
           script: 
             - echo "foo"
             - shipctl get_resource_id resource-state
-            - sleep 150
 
   - name: runSh-Job-Ubuntu-16
     type: runSh
@@ -68,7 +67,6 @@ jobs:
           script: 
             - echo "foo"
             - shipctl get_resource_id resource-state
-            - sleep 150
 
   - name: runSh-Job-Centos
     type: runSh
@@ -86,7 +84,6 @@ jobs:
           script: 
             - echo "foo"
             - shipctl get_resource_id resource-state
-            - sleep 150
 
   - name: runSh-Job-Ubuntu-aarch64
     type: runSh
@@ -103,25 +100,6 @@ jobs:
           script: 
             - echo "foo"
             - shipctl get_resource_id resource-state
-            - sleep 150
-
-  - name: runSh-Job-macOs
-    type: runSh
-    runtime:
-      nodePool: mac-default
-    steps:
-      - IN: resource-state
-      - TASK:
-          runtime:
-            options:
-              imageName: zephyrprojectrtos/ci
-              imageTag: v0.3
-              pull: true
-              options: "-e HOME=/home/buildslave"
-          script: 
-            - echo "foo"
-            - shipctl get_resource_id resource-state
-            - sleep 150
  
   - name: x86-64-windows-server-2016-container-custom-img-valid
     type: runSh
