@@ -122,3 +122,20 @@ jobs:
             - echo "foo"
             - shipctl get_resource_id resource-state
             - sleep 150
+ 
+  - name: x86-64-windows-server-2016-container-custom-img-valid
+    type: runSh
+    runtime:
+      nodePool: win-default
+      container: true
+    steps:
+      - IN: resource-state
+      - TASK:
+          name: say-hello-world
+          runtime:
+            options:
+              imageName: "microsoft/windowsservercore"
+              imageTag: "10.0.14393.1884"
+          script:
+            - Write-Output "Hello world"
+            - shipctl get_resource_id resource-state
