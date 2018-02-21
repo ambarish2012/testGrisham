@@ -33,9 +33,11 @@ build:
 resources:
   - name: resource-state
     type: state
+    
 jobs:
   - name: runSh-Job-Ubuntu-14
     type: runSh
+    allowPublicAccess: true
     runtime:
       nodePool: default
     steps:
@@ -53,6 +55,7 @@ jobs:
 
   - name: runSh-Job-Ubuntu-16
     type: runSh
+    allowPublicAccess: true
     runtime:
       nodePool: default-16
     steps:
@@ -70,6 +73,7 @@ jobs:
 
   - name: runSh-Job-Centos
     type: runSh
+    allowPublicAccess: true
     runtime:
       nodePool: default-centos
     steps:
@@ -87,6 +91,7 @@ jobs:
 
   - name: runSh-Job-Ubuntu-aarch64
     type: runSh
+    allowPublicAccess: true
     runtime:
       nodePool: default-aarch
     steps:
@@ -103,6 +108,7 @@ jobs:
  
   - name: x86-64-windows-server-2016-container-custom-img-valid
     type: runSh
+    allowPublicAccess: true
     runtime:
       nodePool: win-default
       container: true
