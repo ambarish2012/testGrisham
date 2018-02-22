@@ -22,6 +22,7 @@ build:
 jobs:
   - name: runSh-Job-Ubuntu-14
     type: runSh
+    allowPublicAccess: true
     runtime:
       nodePool: default
     steps:
